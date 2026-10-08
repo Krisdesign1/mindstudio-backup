@@ -1,0 +1,19 @@
+node_modules/
+.next/
+.env*
+!.env.example
+*.tsbuildinfo
+.mindstudio/
+
+# Les fichiers volumineux restent dans les archives de sauvegarde GitHub.
+renders/
+delivery*.mp4
+.DS_Store
+**/.DS_Store
+**/__pycache__/
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+service-account*.json

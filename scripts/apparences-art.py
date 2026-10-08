@@ -1,0 +1,42 @@
+"""New editorial public/private sets; recurring host face copied exactly from reference rig."""
+import importlib.util
+from pathlib import Path
+spec=importlib.util.spec_from_file_location('cast',Path(__file__).with_name('humilite-v2-art.py'));cast=importlib.util.module_from_spec(spec);spec.loader.exec_module(cast)
+mouth=cast.mouth
+DEFS=cast.DEFS.replace('#728f82','#c8cecb').replace('#42645d','#829a9c').replace('#29483f','#526d77')+'''<defs><linearGradient id="night" x2="0" y2="1"><stop stop-color="#182c3b"/><stop offset="1" stop-color="#49616b"/></linearGradient><linearGradient id="light" x2="1" y2="1"><stop stop-color="#f4eee0"/><stop offset="1" stop-color="#d5dfdc"/></linearGradient></defs>'''
+def person(pid,x,y,s=1,gender='f',pose='open',emotion='calm',seated=False):
+ c=cast.person(pid,x,y,s,gender,pose,emotion,False,seated)
+ if pid=='host':c=c.replace('#567a6c','#829a9c').replace('#a7beb0','#eed9b9').replace('#1e3e39','#405e6e')
+ elif gender=='f':
+  c=c.replace('url(#jacket)','#aa7870').replace('#567a6c','#aa7870').replace('#a7beb0','#e8d4bb').replace('<ellipse cx="35" cy="-151" rx="54" ry="46" fill="#27302d"/>','').replace('fill="#27302d"','fill="#483630"').replace('cx="-43"','cx="-47"').replace('cx="49"','cx="45"')
+ else:c=c.replace('#596c7d','#596e83').replace('#a7beb0','#e4ddca')
+ return f'<g id="{pid}-motion">{c}</g>'
+def base(dark=False):return f'<rect width="1920" height="1080" fill="{"url(#night)" if dark else "url(#light)"}"/><path d="M0 850H1920V1080H0Z" fill="{"#263d49" if dark else "#b2c3c0"}"/><path d="M0 970H1920M400 850L220 1080M1500 850L1700 1080" stroke="#82979a" opacity=".25" stroke-width="3"/>'
+def stage(empty=False):
+ s=base(True)+'<path d="M80 0H470L380 800H80ZM1450 0H1840V800H1540Z" fill="#25424f"/><path d="M570 0L450 850H1010L950 0M1150 0L900 850H1620L1560 0" fill="#ead9bb" opacity=".10"/><ellipse cx="980" cy="865" rx="640" ry="75" fill="#607b80"/>'
+ if not empty:s+=person('partner',790,335,.73,'m','open')+person('woman',1210,345,.72,'f','rest')
+ return s+'<g id="lectern"><path d="M790 595H1140L1100 660H830Z" fill="#b0c4c4"/><path d="M850 660H1080V915H850Z" fill="#6b8890" opacity=".9"/><path d="M965 595V530Q965 500 1000 500" stroke="#263b4a" stroke-width="9" fill="none"/></g>'
+def camera():return '<g id="camera"><rect x="230" y="550" width="210" height="135" rx="20" fill="#283b48"/><circle cx="450" cy="615" r="62" fill="#111f29" stroke="#658692" stroke-width="12"/><circle cx="450" cy="615" r="33" fill="#4d747f"/><path d="M330 685V920M330 730L250 940M330 730L430 940" stroke="#4f6b75" stroke-width="17"/><circle id="record" cx="275" cy="580" r="11" fill="#cb8075"/></g>'
+def quiet():return base()+'<rect x="100" y="145" width="590" height="505" fill="#88a4ac"/><path d="M390 145V650M100 385H690" stroke="#f4eee0" stroke-width="18"/><path d="M1380 190V830M1240 830H1520" stroke="#8d8e7b" stroke-width="11"/><path d="M1280 190L1220 320H1540L1480 190Z" fill="#e4c99f"/><rect x="780" y="235" width="330" height="250" rx="8" fill="#c2d1cb"/><path d="M850 420L900 305L1030 420" fill="none" stroke="#a4b9b4" stroke-width="12"/>'
+def talk():return quiet()+person('woman',700,375,.72,'f','listen','sad')+person('partner',1210,375,.72,'m','listen')+'<path d="M790 710H1120V745H790Z" fill="#c09f86"/><path d="M835 745V920M1075 745V920" stroke="#8d7970" stroke-width="15"/>'
+def scene(k,i):
+ if k=='host':return base(True)+'<path d="M100 150H1800M100 830H1800" stroke="#9bb4b9" stroke-width="2" opacity=".3"/><circle cx="960" cy="500" r="410" fill="none" stroke="#cfad87" stroke-width="2" opacity=".15"/>'
+ if k in ('public','preach','camera','apology','empty'):return stage(k=='empty')+(camera() if k in ('camera','apology','public') else '')
+ if k in ('private','alone','silence'):return quiet()+person('woman',1120,370,.74,'f','rest','sad')
+ if k in ('talk','support','counsel','repair','family'):return talk()
+ if k=='wedding':return base()+person('woman',720,350,.74,'f','listen')+person('partner',1220,350,.74,'m','open')+'<path d="M460 780V300Q960 0 1460 300V780" fill="none" stroke="#d1ad87" stroke-width="18"/><g id="rings"><circle cx="917" cy="645" r="58" fill="none" stroke="#caa671" stroke-width="14"/><circle cx="1003" cy="645" r="58" fill="none" stroke="#caa671" stroke-width="14"/></g>'
+ if k=='parents':return quiet()+person('woman',730,370,.72,'f','listen')+person('partner',1190,370,.72,'m','rest')+'<path d="M840 750H1100V870H840Z" fill="#c7b497"/><path d="M860 750Q970 640 1080 750" fill="#e3d7bd"/>'
+ if k in ('distance','fracture'):return base(True)+person('woman',510,370,.74,'f','rest','sad')+person('partner',1410,370,.74,'m','rest','sad')+'<path id="fracture" d="M980 180L935 370L1010 540L940 720L990 890" fill="none" stroke="#ca8b7d" stroke-width="9"/>'
+ if k in ('calendar','duration'):return base()+'<g id="calendar"><rect x="485" y="235" width="950" height="590" rx="25" fill="#f5eee1"/><rect x="485" y="235" width="950" height="100" rx="25" fill="#6d8d98"/>'+''.join(f'<rect x="{550+c*170}" y="{390+r*125}" width="105" height="75" rx="9" fill="{ "#ccaa89" if (c+r+i)%5==0 else "#d9e1db"}"/>' for r in range(3) for c in range(5))+'</g>'
+ if k in ('feed','rumor'):return base(True)+'<g id="feed">'+''.join(f'<g transform="translate({280+j*440} {270+(j%2)*100})"><rect width="365" height="460" rx="25" fill="#dae0d7"/><circle cx="58" cy="60" r="25" fill="#7796a0"/><path d="M115 48H300M115 78H250M40 150H325M40 195H290M40 240H310M40 285H255" stroke="#9caeaa" stroke-width="12"/><path d="M40 365H140" stroke="#ca9784" stroke-width="20"/></g>' for j in range(3))+'</g>'
+ if k in ('help','door'):return quiet()+'<g id="door"><path d="M750 140H1210V890H750Z" fill="#466b77"/><path d="M820 190H1150V890H820Z" fill="#deceaa"/><circle cx="1110" cy="530" r="12" fill="#b5916e"/></g>'+person('woman',570,375,.73,'f','point')
+ if k=='faith':return base()+'<g id="book"><path d="M520 410Q740 365 960 430Q1180 365 1400 410V760Q1180 715 960 780Q740 715 520 760Z" fill="#f8eee0" stroke="#a7aba0" stroke-width="8"/><path d="M960 430V780" stroke="#9fa69e" stroke-width="7"/>'+''.join(f'<path d="M580 {y}Q730 {y-25} 890 {y+10}M1030 {y+10}Q1180 {y-25} 1340 {y}" stroke="#b5beb1" stroke-width="7" fill="none"/>' for y in range(470,720,55))+'</g>'
+ if k in ('type','question','comparison'):return base(True)+'<path d="M400 765H1520" stroke="#d4b791" stroke-width="5"/><circle cx="960" cy="510" r="340" stroke="#6b909c" stroke-width="3" fill="none" opacity=".35"/>'
+ if k=='community':return stage(True)+''.join(person('member'+str(j),330+j*310,500,.43,'f' if j%2 else 'm','listen') for j in range(5))
+ if k=='responsibility':return quiet()+person('woman',700,370,.72,'f','rest')+person('partner',1190,370,.72,'m','listen')+'<g id="panels"><rect x="200" y="600" width="230" height="155" rx="12" fill="#b39e84"/><path d="M250 600V550H380V600" stroke="#b39e84" stroke-width="15" fill="none"/><path d="M1480 640H1730V800H1480Z" fill="#88a8ad"/><path d="M1520 640Q1610 520 1690 640" fill="#e6d5b9"/></g>'
+ if k=='image':return base(True)+person('woman',960,385,.72,'f','rest','sad')+'<g id="panels"><rect x="620" y="180" width="680" height="700" rx="12" fill="none" stroke="#cfb18b" stroke-width="26"/><path d="M620 180L1300 880" stroke="#647f86" stroke-width="6" opacity=".35"/></g>'
+ if k=='trust':return base(True)+person('woman',550,370,.74,'f','rest','sad')+person('partner',1370,370,.74,'m','rest','sad')+'<g id="panels"><path d="M720 570H880L920 530M1000 590L1040 570H1200" fill="none" stroke="#cfb18b" stroke-width="16"/><path d="M975 470L925 660" stroke="#cb8c7d" stroke-width="6"/></g>'
+ if k=='pressure':return quiet()+person('woman',1100,370,.74,'f','rest','sad')+'<g id="panels">'+''.join(f'<rect x="{340+j*20}" y="{720-j*100}" width="350" height="80" rx="10" fill="{["#a2b3b0","#bdab91","#698b99"][j%3]}"/>' for j in range(4))+'</g>'
+ if k=='choice':return base(True)+'<g id="panels"><path d="M330 200H750V850H330Z" fill="#71929c"/><path d="M1170 200H1590V850H1170Z" fill="#aa987f"/><path d="M750 850L960 1020L1170 850" fill="none" stroke="#dac7a8" stroke-width="9"/></g>'
+ if k=='identity':return quiet()+person('woman',960,370,.74,'f','listen')+'<g id="panels"><rect x="270" y="360" width="360" height="240" rx="20" fill="#7b98a0"/><circle cx="360" cy="440" r="35" fill="#ddceaf"/><path d="M425 425H575M425 470H545M315 535H575" stroke="#dae0d2" stroke-width="12"/></g>'
+ return quiet()+person('woman',950,375,.73,'f','listen')

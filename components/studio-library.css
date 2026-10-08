@@ -1,0 +1,134 @@
+.studio-library {
+  max-width: 1200px;
+  margin: auto;
+  padding: 36px 32px 80px;
+  color: var(--text);
+}
+.sl-back {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  color: var(--muted);
+  text-decoration: none;
+}
+.studio-library header {
+  margin: 54px 0 32px;
+}
+.studio-library header > span {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: #b5a0f0;
+}
+.studio-library h1 {
+  font-size: 44px;
+  letter-spacing: -1.8px;
+  margin: 14px 0;
+}
+.studio-library p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+.studio-library form {
+  background: linear-gradient(120deg, #242033, #17181d);
+  border: 1px solid #403653;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 30px;
+  margin-bottom: 46px;
+}
+.studio-library form > div:nth-child(2) {
+  flex: 1;
+}
+.sl-icon {
+  padding: 18px;
+  background: #b5a0f018;
+  border-radius: 16px;
+  color: #b5a0f0;
+}
+.studio-library h2 {
+  font-size: 20px;
+}
+.studio-library form h2 {
+  margin: 0;
+}
+.studio-library label {
+  display: block;
+  font-size: 12px;
+  color: #b9b4c9;
+  margin: 16px 0 8px;
+}
+.studio-library input {
+  width: 100%;
+  max-width: 420px;
+  background: #101114;
+  border: 1px solid #494052;
+  border-radius: 9px;
+  padding: 12px;
+  color: var(--text);
+  font: inherit;
+}
+.studio-library button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 10px;
+  background: #b5a0f0;
+  color: #171221;
+  padding: 14px 20px;
+  font-weight: 650;
+  cursor: pointer;
+}
+.studio-library button:disabled {
+  opacity: 0.6;
+}
+.sl-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(235px, 1fr));
+  gap: 16px;
+  margin: 22px 0 42px;
+}
+.sl-grid a {
+  padding: 24px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  text-decoration: none;
+  color: var(--text);
+}
+.sl-grid a:hover {
+  border-color: #b5a0f0;
+}
+.sl-grid a > svg {
+  color: #b5a0f0;
+}
+.sl-grid span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.sl-empty {
+  padding: 24px;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  margin-bottom: 40px;
+}
+@media (max-width: 720px) {
+  .studio-library {
+    padding: 24px 18px;
+  }
+  .studio-library form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .sl-icon {
+    display: none;
+  }
+  .studio-library h1 {
+    font-size: 34px;
+  }
+}
